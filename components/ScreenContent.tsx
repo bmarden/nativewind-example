@@ -36,8 +36,8 @@ export const ScreenContent = ({ title, path, children }: ScreenContentProps) => 
 
   return (
     <View className={styles.container}>
-      <Text className={styles.title}>{title}</Text>
-      <Button className="rounded-md bg-blue-400" title="Toggle theme" onPress={handlePress} />
+      <Text className="text-primary text-xl font-bold">{title}</Text>
+      <Button className="bg-primary rounded-md" title="Toggle theme" onPress={handlePress} />
       {children}
       <Text className="mt-4 text-center text-2xl text-gray-800">{theme}</Text>
     </View>
