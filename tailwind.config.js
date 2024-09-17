@@ -6,9 +6,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#22a1c7',
+        primary: 'rgb(var(--color-primary))',
+        secondary: 'rgb(var(--color-secondary))',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // Adding default values for CSS variables in :root
+    ({ addBase }) => {
+      addBase({
+        ':root': {
+          '--color-primary': '0, 0, 0', // Default value
+          '--color-secondary': '100, 100, 100',
+        },
+      });
+    },
+  ],
 };

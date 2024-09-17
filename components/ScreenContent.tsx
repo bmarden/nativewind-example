@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
+import { Customer, themes } from 'themes';
 
 import Button from './Button';
-import { EditScreenInfo } from './EditScreenInfo';
 
 type ScreenContentProps = {
   title: string;
@@ -12,12 +12,12 @@ type ScreenContentProps = {
 };
 
 export const ScreenContent = ({ title, path, children }: ScreenContentProps) => {
-  const [theme, setTheme] = useState<string | null>(null);
+  const [customerName, setCustomerName] = useState<Customer>('mercy');
 
   useEffect(() => {
     AsyncStorage.getItem('theme').then((themeFromStorage) => {
-      if (themeFromStorage) {
-        setTheme(themeFromStorage);
+      if (themeFromStorage === 'mercy' || themeFromStorage === 'memorial') {
+        setCustomerName(themeFromStorage);
       } else {
         AsyncStorage.setItem('theme', 'mercy');
       }
@@ -25,21 +25,24 @@ export const ScreenContent = ({ title, path, children }: ScreenContentProps) => 
   }, []);
 
   const handlePress = () => {
-    if (theme === 'mercy') {
+    if (customerName === 'mercy') {
       AsyncStorage.setItem('theme', 'memorial');
-      setTheme('memorial');
+      setCustomerName('memorial');
     } else {
       AsyncStorage.setItem('theme', 'mercy');
-      setTheme('mercy');
+      setCustomerName('mercy');
     }
   };
 
   return (
     <View className={styles.container}>
-      <Text className="text-primary text-xl font-bold">{title}</Text>
-      <Button className="bg-primary rounded-md" title="Toggle theme" onPress={handlePress} />
-      {children}
-      <Text className="mt-4 text-center text-2xl text-gray-800">{theme}</Text>
+      <View style={themes[customerName]}>
+        <Text className="text-xl font-bold text-primary">Primary color</Text>
+        <Text className="text-secondary text-xl font-bold">Secondary color</Text>
+        <Button className="bg-secondary rounded-md" title="Toggle theme" onPress={handlePress} />
+        {children}
+        <Text className="mt-4 text-center text-2xl text-gray-800">{customerName}</Text>
+      </View>
     </View>
   );
 };
